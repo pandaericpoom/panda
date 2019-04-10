@@ -32,7 +32,7 @@
       </li>
 
     <li class="nav-item">
-      <a class="nav-link" style="color:white" href="http://localhost:5000/sfhouse_page">House detail</a>
+      <a class="nav-link" style="color:white" href="http://localhost:5000/sfhouse1">House detail</a>
     </li>
 
     <li class="nav-item">
@@ -43,6 +43,16 @@
    </div> 
    </nav>
    <table border = 1>
+          <tr>
+              
+               <td> House ID </td>
+               <td> Avaliable or not</td>
+               <td> Number of bedroom</td>
+               <td> Number of common space</td>
+               <td> Number of washroom</td>
+               <td> booking no</td>
+
+          </tr>
          {% for item in result %}
             <tr>
               
@@ -59,9 +69,16 @@
 
     <form action = "http://localhost:5000/sfhouse_page" method = "post"> 
     <h2>New House</h2>
-    House ID:<br><input type = "text" name = "username" /><p> 
-    Avaliable or not:<br><input type = "password" name = "password"/> 
-    <p>{{incorrect}}</p>
+    House ID:<input type = "text" name = "houseid" /><p><br>
+    Avaliable or not:<select name="Avaliable" id="Avaliable" name="Avaliable" >
+        <option value="now">Yes</option>
+        <option value="not">No</option>
+  
+      </select><br>
+    Number of bedroom:<input type = "number" name = "brno" min = 0 max = 999/><br>
+    Number of common space:<input type = "number" name = "csnb" min = 0 max = 999/><br>
+    Number of washroom:<input type = "number" name = "wrno" min = 0 max = 999/><br>
+    booking no.:<input type = "number" name = "bkno" min = 0 max = 999 value = 0/><br>
 <p><input type = "submit" value = "submit" /></p>
 </form>
 

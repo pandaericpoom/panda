@@ -213,7 +213,7 @@ def sflogin():
          db = pymysql.connect("localhost", "pmauser", "123456aaa", "assignment")
          with db.cursor() as cursor:
             found=False
-            a = """SELECT sfusername from admin """
+            a = """SELECT sfusername, sfpassword from admin """
             cursor.execute(a)
             staffu.append(row[0])
             staffp.append(row[1])
@@ -251,22 +251,51 @@ def sfcustomer_page():
    with db.cursor() as cursor:
       cursor.execute( """SELECT * from customer""")
       customer_list=cursor.fetchall()
+   db.close()
 
-      return render_template('admin_customer.html', result = customer_list)
-      
+   return render_template('admin_customer.html', result = customer_list)
 
 @app.route('/sfhouse',methods = ['POST', 'GET'])
 def sfhouse():
    return render_template('admin_house.html')
 
-@app.route('/sfhouse_page',methods = ['POST', 'GET'])
-def sfhouse_page():
+@app.route('/sfhouse1',methods = ['POST', 'GET'])
+def sfhouse1():
    db = pymysql.connect("localhost", "pmauser", "123456aaa", "assignment")
    with db.cursor() as cursor:
       cursor.execute( """SELECT * from house""")
       house_list=cursor.fetchall()
+   return render_template('admin_house.html', result = house_list)
 
-      return render_template('admin_customer.html', result = house_list)  
+@app.route('/sfhouse_page',methods = ['POST', 'GET'])
+def sfhouse_page():
+   db = pymysql.connect("localhost", "pmauser", "123456aaa", "assignment")
+   
+   if request.method == 'POST':
+         houseid = request.form["houseid"]
+         Avaliable = request.form["Avaliable"]
+         brno = request.form["brno"]
+         csnb = request.form["csnb"]
+         wrno = request.form["wrno"]
+         bkno = request.form["bkno"]
+
+         db = pymysql.connect("localhost", "pmauser", "123456aaa", "assignment")
+         cursor = db.cursor() 
+
+         sql = """INSERT INTO house(house_id, avaliable, bedroom, common_spaces, washroom, booking_no) VALUES ('%s', '%s', %d, %d, %d, %d)"""\
+            %(str(houseid), str(Avaliable), int(brno), int(csnb), int(wrno), int(bkno))
+            
+         try:
+            cursor.execute(sql)
+            db.commit()
+
+         except:
+
+            db.rollback() 
+
+            return redirect(url_for("sfhouse"))
+         db.close()
+ 
 
 
 if __name__ == '__main__':
